@@ -48,6 +48,14 @@ namespace osu.Framework.Input.StateChanges
         void HandleJoystickButtonStateChange(InputState state, JoystickButton button, ButtonStateChangeKind kind);
 
         /// <summary>
+        /// Handles a change of MIDI key state.
+        /// </summary>
+        /// <param name="state">The current <see cref="InputState"/>.</param>
+        /// <param name="key">The <see cref="MidiKeyPressed"/> that changed.</param>
+        /// <param name="kind">The type of change that occurred on <paramref name="key"/>.</param>
+        void HandleMidiKeyStateChange(InputState state, MidiKey key, ButtonStateChangeKind kind);
+
+        /// <summary>
         /// Handles a change of things other than mouse, keyboard and joystick.
         /// </summary>
         /// <param name="state">The current state.</param>

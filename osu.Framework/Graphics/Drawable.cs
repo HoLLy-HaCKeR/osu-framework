@@ -1943,7 +1943,7 @@ namespace osu.Framework.Graphics
         /// <summary>
         /// Triggers <see cref="OnJoystickPress(InputState, JoystickEventArgs)"/> with a local version of the given <see cref="InputState"/>.
         /// </summary>
-        public bool TriggerOnJoystickPress(InputState screenspaceState, JoystickEventArgs args) => OnJoystickPress(createCloneInParentSpace(screenspaceState), args);
+        public bool TriggerOnJoystickPress(InputState screenSpaceState, JoystickEventArgs args) => OnJoystickPress(createCloneInParentSpace(screenSpaceState), args);
 
         /// <summary>
         /// Triggered whenever a joystick button was pressed.
@@ -1967,6 +1967,34 @@ namespace osu.Framework.Graphics
         /// <returns>True if this Drawable handled the event. If false, then the event
         /// is propagated up the scene graph to the next eligible Drawable.</returns>
         protected virtual bool OnJoystickRelease(InputState state, JoystickEventArgs args) => false;
+
+        /// <summary>
+        /// Triggers <see cref="OnMidiKeyDown(InputState, MidiEventArgs)"/> with a local version of the given <see cref="InputState"/>.
+        /// </summary>
+        public bool TriggerOnMidiKeyDown(InputState screenSpaceState, MidiEventArgs args) => OnMidiKeyDown(createCloneInParentSpace(screenSpaceState), args);
+
+        /// <summary>
+        /// Triggered whenever a MIDI key was pressed.
+        /// </summary>
+        /// <param name="state">The state after the key was pressed.</param>
+        /// <param name="args">Specific arguments for the press event.</param>
+        /// <returns>True if this Drawable handled the event. If false, then the event
+        /// is propagated up the scene graph to the next eligible Drawable.</returns>
+        protected virtual bool OnMidiKeyDown(InputState state, MidiEventArgs args) => false;
+
+        /// <summary>
+        /// Triggers <see cref="OnMidiKeyUp(InputState, MidiEventArgs)"/> with a local version of the given <see cref="InputState"/>.
+        /// </summary>
+        public bool TriggerOnMidiKeyUp(InputState screenSpaceState, MidiEventArgs args) => OnMidiKeyUp(createCloneInParentSpace(screenSpaceState), args);
+
+        /// <summary>
+        /// Triggered whenever a MIDI key was released.
+        /// </summary>
+        /// <param name="state">The state after the key was released.</param>
+        /// <param name="args">Specific arguments for the release event.</param>
+        /// <returns>True if this Drawable handled the event. If false, then the event
+        /// is propagated up the scene graph to the next eligible Drawable.</returns>
+        protected virtual bool OnMidiKeyUp(InputState state, MidiEventArgs args) => false;
 
         /// <summary>
         /// Triggers <see cref="OnMouseMove(InputState)"/> with a local version of the given <see cref="InputState"/>.

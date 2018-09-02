@@ -8,6 +8,7 @@ namespace osu.Framework.Input.States
         public IKeyboardState Keyboard;
         public IMouseState Mouse;
         public IJoystickState Joystick;
+        public IMidiState Midi;
 
         public virtual InputState Clone()
         {
@@ -15,6 +16,7 @@ namespace osu.Framework.Input.States
             clone.Keyboard = Keyboard?.Clone();
             clone.Mouse = Mouse?.Clone();
             clone.Joystick = Joystick?.Clone();
+            clone.Midi = Midi?.Clone();
             return clone;
         }
     }

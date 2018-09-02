@@ -54,6 +54,7 @@ namespace osu.Framework.Input
             Mouse = new MouseState { IsPositionValid = false },
             Keyboard = new KeyboardState(),
             Joystick = new JoystickState(),
+            Midi = new MidiState(),
         };
 
         /// <summary>
@@ -403,6 +404,18 @@ namespace osu.Framework.Input
             }
         }
 
+        public void HandleMidiKeyStateChange(InputState state, MidiKey key, ButtonStateChangeKind kind)
+        {
+            if (kind == ButtonStateChangeKind.Pressed)
+            {
+                handleMidiKeyDown(state, key);
+            }
+            else
+            {
+                handleMidiKeyUp(state, key);
+            }
+        }
+
         public virtual void HandleMousePositionChange(InputState state)
         {
             var mouse = state.Mouse;
@@ -540,6 +553,44 @@ namespace osu.Framework.Input
 
             if (handledBy != null)
                 Logger.Log($"JoystickRelease ({args.Button}) handled by {handledBy}.", LoggingTarget.Runtime, LogLevel.Debug);
+
+            return handledBy != null;
+        }
+
+        private bool handleMidiKeyDown(InputState state, MidiKey key)
+        {
+            IEnumerable<Drawable> queue = InputQueue;
+            if (!unfocusIfNoLongerValid())
+                queue = queue.Prepend(FocusedDrawable);
+
+            return PropagateMidiKeyDown(queue, state, new MidiEventArgs { Key = key });
+        }
+
+        protected virtual bool PropagateMidiKeyDown(IEnumerable<Drawable> drawables, InputState state, MidiEventArgs args)
+        {
+            var handledBy = drawables.FirstOrDefault(target => target.TriggerOnMidiKeyDown(state, args));
+
+            if (handledBy != null)
+                Logger.Log($"MidiKeyDown ({args.Key}) handled by {handledBy}.", LoggingTarget.Runtime, LogLevel.Debug);
+
+            return handledBy != null;
+        }
+
+        private bool handleMidiKeyUp(InputState state, MidiKey key)
+        {
+            IEnumerable<Drawable> queue = InputQueue;
+            if (!unfocusIfNoLongerValid())
+                queue = queue.Prepend(FocusedDrawable);
+
+            return PropagateMidiKeyUp(queue, state, new MidiEventArgs { Key = key });
+        }
+
+        protected virtual bool PropagateMidiKeyUp(IEnumerable<Drawable> drawables, InputState state, MidiEventArgs args)
+        {
+            var handledBy = drawables.FirstOrDefault(target => target.TriggerOnMidiKeyUp(state, args));
+
+            if (handledBy != null)
+                Logger.Log($"MidiKeyUp ({args.Key}) handled by {handledBy}.", LoggingTarget.Runtime, LogLevel.Debug);
 
             return handledBy != null;
         }

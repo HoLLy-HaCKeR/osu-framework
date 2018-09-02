@@ -69,5 +69,6 @@ namespace osu.Framework.Statistics
         MouseEvents,
         KeyEvents,
         JoystickEvents,
+        MidiEvents,
     }
 }
